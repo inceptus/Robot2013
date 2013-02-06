@@ -9,6 +9,9 @@ package org.inceptus;
 
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Watchdog;
+import org.inceptus.OI.OI;
+import org.inceptus.chassis.Drive;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,12 +21,28 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * directory.
  */
 public class Robot extends IterativeRobot {
+    
+    //Global drive class
+    private Drive drive;
+    
+    //Global Operator Interface class
+    private OI oi;
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
 
+        //Disable the watchdog
+        Watchdog.getInstance().setEnabled(false);
+        
+        //Get the drive class
+        drive = new Drive();
+        
+        //Get the OI class
+        oi = new OI();
+        
     }
 
     /**
@@ -37,6 +56,9 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        
+        //Drive with the latest Joystick values
+        oi.driveWithJoy(drive);
         
     }
     
