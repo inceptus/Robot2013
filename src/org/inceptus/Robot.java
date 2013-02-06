@@ -46,6 +46,16 @@ public class Robot extends IterativeRobot {
     }
 
     /**
+     * This function is run when the robot is disabled
+     */
+    public void disabledInit(){
+        
+        //Stop the drive
+        drive.stop();
+        
+    }
+    
+    /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
