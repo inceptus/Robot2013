@@ -10,8 +10,10 @@ package org.inceptus;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Watchdog;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import org.inceptus.OI.OI;
 import org.inceptus.chassis.Drive;
+import org.inceptus.chassis.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +27,9 @@ public class Robot extends IterativeRobot {
     //Global drive class
     private Drive drive;
     
+    //Global shooter class
+    private Shooter shooter;
+    
     //Global Operator Interface class
     private OI oi;
     
@@ -33,15 +38,24 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-
-        //Disable the watchdog
-        Watchdog.getInstance().setEnabled(false);
         
-        //Get the drive class
-        drive = new Drive();
-        
-        //Get the OI class
-        oi = new OI();
+        try {
+            
+            //Disable the watchdog
+            Watchdog.getInstance().setEnabled(false);
+            
+            //Get the drive class
+            drive = new Drive();
+            
+            //Get the shooter class
+            shooter = new Shooter();
+            
+            //Get the OI class
+            oi = new OI();
+            
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
         
     }
 
@@ -67,8 +81,17 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         
-        //Drive with the latest Joystick values
-        oi.driveWithJoy(drive);
+        try {
+            
+            //Drive with the latest Joystick values
+            oi.driveWithJoy(drive);
+            
+            //Shoot with the latest Joystick values
+            oi.shootWithJoy(shooter);
+            
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
         
     }
     
