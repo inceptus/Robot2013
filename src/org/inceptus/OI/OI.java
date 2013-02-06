@@ -1,7 +1,9 @@
 package org.inceptus.OI;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import org.inceptus.chassis.Drive;
+import org.inceptus.chassis.Shooter;
 
 /**
  *
@@ -29,6 +31,27 @@ public class OI {
                 mainJoy.getScaledY(), 
                 mainJoy.getScaledTwist()
         );
+        
+        //Return Success
+        return true;
+        
+    }
+    
+    public boolean shootWithJoy(Shooter shooter) throws CANTimeoutException{
+        
+        //Shooting wheel
+        if(otherJoy.getRawButton(1)){
+            shooter.shoot();
+        }else{
+            shooter.stop();
+        }
+        
+        //Hopper
+        if(otherJoy.getRawButton(2)){
+            shooter.load();
+        }else{
+            shooter.reload();
+        }
         
         //Return Success
         return true;
